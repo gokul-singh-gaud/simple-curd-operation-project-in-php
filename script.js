@@ -130,6 +130,7 @@ function loadData(){
             let res = JSON.parse(data)
             let el = document.getElementById("persons");
             el.innerHTML = "";
+            if(res[0] != undefined){
             res.forEach((data, index)=>{
                 let tr = document.createElement("tr");
                 let innerHTML =    `
@@ -151,6 +152,16 @@ function loadData(){
                 tr.innerHTML = innerHTML;
                 el.appendChild(tr);
             })
+
+            }
+            else{
+                let tr = document.createElement("tr");
+                let innerHTML =    `
+                                <td colspan="7" >`+res['res']+`</td>
+                            `;
+                tr.innerHTML = innerHTML;
+                el.appendChild(tr);
+            }
         },
         error: function(jqXHR, status, error) {
             alert("error loading data" + error)
@@ -169,12 +180,13 @@ function deleteData(id){
             // console.log(data)
             let res = JSON.parse(data)
             swal(status, res, "success");
-            loadData();
         },
         error: function(jqXHR, status, error) {
             swal(status, error, "danger");
         }
       });
+      
+      loadData()
 } 
 
     function edit(rid){
@@ -203,6 +215,8 @@ function deleteData(id){
                     $(option).prop("selected", true)
                 }
             })
+
+            loadData();
     }
     function del(id){
             let person_id = id;
@@ -215,7 +229,8 @@ function deleteData(id){
               })
               .then((willDelete) => {
                 if (willDelete) {
-                    deleteData(person_id)
+                    deleteData(person_id);
+                    loadData();
                 } else {
                   swal("Your information is safe!");
                 }
