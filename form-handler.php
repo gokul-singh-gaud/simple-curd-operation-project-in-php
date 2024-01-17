@@ -62,7 +62,8 @@ if(isset($_POST['showAllRecord'])){
             $json = json_encode($data); 
             echo $json;
         } else {
-          echo "No results found";
+            $json = ['res'=>"No results found"];
+          echo json_encode($json);
         }
         $stmt->close();
         $conn->close();
